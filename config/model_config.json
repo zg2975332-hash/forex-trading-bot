@@ -1,0 +1,423 @@
+{
+  "model_config": {
+    "metadata": {
+      "config_version": "3.0.0",
+      "created_date": "2024-01-15",
+      "last_modified": "2024-01-15",
+      "description": "Advanced AI Model Configuration for Forex Trading Bot",
+      "author": "Forex AI Team"
+    },
+
+    "environment_settings": {
+      "environment": "production",
+      "debug_mode": false,
+      "log_level": "INFO",
+      "random_seed": 42,
+      "enable_gpu": true,
+      "gpu_memory_limit": 8192
+    },
+
+    "data_preprocessing": {
+      "sequence_length": 60,
+      "prediction_horizon": 1,
+      "train_test_split": 0.8,
+      "validation_split": 0.1,
+      "feature_scaling": "standard",
+      "handle_missing_data": "interpolate",
+      "outlier_detection": true,
+      "outlier_threshold": 3.0,
+      
+      "feature_engineering": {
+        "technical_indicators": [
+          {
+            "name": "sma",
+            "periods": [5, 10, 20, 50],
+            "enabled": true
+          },
+          {
+            "name": "ema", 
+            "periods": [12, 26],
+            "enabled": true
+          },
+          {
+            "name": "rsi",
+            "period": 14,
+            "enabled": true
+          },
+          {
+            "name": "macd",
+            "fast_period": 12,
+            "slow_period": 26,
+            "signal_period": 9,
+            "enabled": true
+          },
+          {
+            "name": "bollinger_bands",
+            "period": 20,
+            "std_dev": 2,
+            "enabled": true
+          },
+          {
+            "name": "atr",
+            "period": 14,
+            "enabled": true
+          },
+          {
+            "name": "stochastic",
+            "k_period": 14,
+            "d_period": 3,
+            "enabled": true
+          },
+          {
+            "name": "adx",
+            "period": 14,
+            "enabled": true
+          },
+          {
+            "name": "cci",
+            "period": 20,
+            "enabled": true
+          },
+          {
+            "name": "obv",
+            "enabled": true
+          }
+        ],
+        
+        "price_derived_features": [
+          "returns_1h",
+          "returns_4h", 
+          "returns_1d",
+          "volatility_1h",
+          "volatility_4h",
+          "volatility_1d",
+          "price_momentum",
+          "price_acceleration",
+          "hurst_exponent",
+          "fractal_dimension"
+        ],
+        
+        "market_regime_features": [
+          "trend_strength",
+          "volatility_regime",
+          "market_state",
+          "regime_confidence"
+        ],
+        
+        "microstructure_features": [
+          "order_book_imbalance",
+          "market_depth",
+          "large_order_flow",
+          "price_impact"
+        ]
+      }
+    },
+
+    "lstm_model": {
+      "enabled": true,
+      "model_type": "stacked_lstm",
+      "architecture": {
+        "input_shape": [60, 45],
+        "hidden_layers": [128, 64, 32],
+        "dropout_rates": [0.2, 0.2, 0.1],
+        "recurrent_dropout": 0.2,
+        "activation": "tanh",
+        "recurrent_activation": "sigmoid",
+        "output_activation": "linear",
+        "use_batch_norm": true
+      },
+      "training": {
+        "batch_size": 32,
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "optimizer": "adam",
+        "loss_function": "mse",
+        "metrics": ["mae", "mape"],
+        "early_stopping": {
+          "enabled": true,
+          "patience": 15,
+          "monitor": "val_loss",
+          "min_delta": 0.001
+        },
+        "reduce_lr": {
+          "enabled": true,
+          "factor": 0.5,
+          "patience": 10,
+          "min_lr": 0.00001
+        },
+        "checkpoint": {
+          "enabled": true,
+          "monitor": "val_loss",
+          "save_best_only": true
+        }
+      },
+      "hyperparameters": {
+        "units_multiplier": 1.0,
+        "learning_rate_decay": 0.95,
+        "gradient_clip": 1.0,
+        "weight_initializer": "glorot_uniform"
+      }
+    },
+
+    "ensemble_model": {
+      "enabled": true,
+      "ensemble_method": "weighted_average",
+      "models": [
+        {
+          "name": "lstm_primary",
+          "weight": 0.4,
+          "enabled": true
+        },
+        {
+          "name": "lstm_secondary", 
+          "weight": 0.2,
+          "enabled": true
+        },
+        {
+          "name": "technical_analysis",
+          "weight": 0.2,
+          "enabled": true
+        },
+        {
+          "name": "sentiment_analysis",
+          "weight": 0.1,
+          "enabled": true
+        },
+        {
+          "name": "microstructure",
+          "weight": 0.1,
+          "enabled": true
+        }
+      ],
+      "confidence_calibration": {
+        "enabled": true,
+        "method": "temperature_scaling",
+        "calibration_set": "validation"
+      }
+    },
+
+    "reinforcement_learning": {
+      "enabled": true,
+      "algorithm": "dqn",
+      "environment": {
+        "state_space": 50,
+        "action_space": 3,
+        "reward_function": "sharpe_ratio",
+        "max_steps": 1000
+      },
+      "agent": {
+        "learning_rate": 0.0001,
+        "discount_factor": 0.99,
+        "epsilon_start": 1.0,
+        "epsilon_end": 0.01,
+        "epsilon_decay": 0.995,
+        "memory_size": 10000,
+        "batch_size": 32,
+        "target_update_frequency": 100,
+        "network_architecture": [256, 128, 64]
+      },
+      "training": {
+        "episodes": 1000,
+        "warmup_episodes": 100,
+        "evaluation_frequency": 50,
+        "save_frequency": 100
+      }
+    },
+
+    "sentiment_model": {
+      "enabled": true,
+      "model_type": "transformer",
+      "data_sources": [
+        {
+          "name": "news_articles",
+          "weight": 0.4,
+          "sources": ["bloomberg", "reuters", "financial_times"]
+        },
+        {
+          "name": "social_media", 
+          "weight": 0.3,
+          "sources": ["twitter", "reddit", "trading_forums"]
+        },
+        {
+          "name": "economic_calendar",
+          "weight": 0.3,
+          "sources": ["fed_meetings", "nfp", "cpi", "gdp"]
+        }
+      ],
+      "processing": {
+        "sentiment_analyzer": "vader_bert_hybrid",
+        "time_decay_factor": 0.95,
+        "min_confidence": 0.6,
+        "aggregation_method": "weighted_average"
+      }
+    },
+
+    "trading_strategy": {
+      "signal_generation": {
+        "confidence_thresholds": {
+          "high_confidence": 0.8,
+          "medium_confidence": 0.6,
+          "low_confidence": 0.4
+        },
+        "min_signal_strength": 0.3,
+        "signal_smoothing": true,
+        "smoothing_window": 3
+      },
+      "position_sizing": {
+        "method": "kelly_optimal",
+        "max_position_size": 0.2,
+        "base_position_size": 0.1,
+        "confidence_multiplier": {
+          "high_confidence": 1.5,
+          "medium_confidence": 1.0, 
+          "low_confidence": 0.5
+        },
+        "volatility_adjustment": true,
+        "volatility_lookback": 20
+      },
+      "risk_management": {
+        "stop_loss_method": "atr_based",
+        "atr_period": 14,
+        "atr_multiplier": 2.0,
+        "take_profit_ratio": 2.0,
+        "trailing_stop": true,
+        "max_drawdown_limit": 0.15,
+        "daily_loss_limit": 0.05
+      }
+    },
+
+    "model_validation": {
+      "cross_validation": {
+        "enabled": true,
+        "folds": 5,
+        "shuffle": true,
+        "random_state": 42
+      },
+      "backtesting": {
+        "initial_capital": 10000,
+        "commission": 0.0002,
+        "slippage": 0.0001,
+        "test_periods": ["2020-01-01", "2023-12-31"]
+      },
+      "performance_metrics": [
+        "accuracy",
+        "precision",
+        "recall", 
+        "f1_score",
+        "mse",
+        "mae",
+        "sharpe_ratio",
+        "max_drawdown",
+        "profit_factor",
+        "win_rate"
+      ],
+      "statistical_tests": [
+        "stationarity_test",
+        "autocorrelation_test",
+        "normality_test"
+      ]
+    },
+
+    "model_persistence": {
+      "save_format": "h5",
+      "compression": true,
+      "version_control": true,
+      "auto_save": true,
+      "save_frequency": "epoch",
+      "model_checkpoints": {
+        "enabled": true,
+        "directory": "models/checkpoints",
+        "max_to_keep": 5
+      },
+      "model_registry": {
+        "enabled": true,
+        "registry_path": "models/registry",
+        "promotion_criteria": "validation_loss"
+      }
+    },
+
+    "monitoring_alerting": {
+      "model_drift": {
+        "enabled": true,
+        "detection_method": "ks_test",
+        "threshold": 0.05,
+        "check_frequency": "daily"
+      },
+      "performance_degradation": {
+        "enabled": true,
+        "threshold": 0.1,
+        "lookback_window": 30
+      },
+      "data_quality": {
+        "enabled": true,
+        "checks": ["missing_data", "outliers", "stationarity"]
+      },
+      "alerts": {
+        "email_alerts": true,
+        "telegram_alerts": true,
+        "dashboard_alerts": true
+      }
+    },
+
+    "optimization_parameters": {
+      "hyperparameter_tuning": {
+        "enabled": true,
+        "method": "bayesian_optimization",
+        "max_evolutions": 100,
+        "fitness_metric": "sharpe_ratio",
+        "parameter_ranges": {
+          "learning_rate": [0.0001, 0.01],
+          "batch_size": [16, 64],
+          "hidden_units": [32, 256],
+          "dropout_rate": [0.1, 0.5],
+          "sequence_length": [30, 120]
+        }
+      },
+      "feature_selection": {
+        "enabled": true,
+        "method": "recursive_elimination",
+        "max_features": 50,
+        "importance_threshold": 0.01
+      },
+      "regularization": {
+        "l1_regularization": 0.001,
+        "l2_regularization": 0.01,
+        "early_stopping": true
+      }
+    },
+
+    "quantum_ml": {
+      "enabled": false,
+      "quantum_circuit": {
+        "num_qubits": 8,
+        "depth": 4,
+        "entanglement": "linear"
+      },
+      "hybrid_training": {
+        "enabled": true,
+        "quantum_layers": 2,
+        "classical_layers": 3
+      }
+    },
+
+    "real_time_adaptation": {
+      "online_learning": {
+        "enabled": true,
+        "learning_rate": 0.0001,
+        "batch_size": 16,
+        "update_frequency": "daily"
+      },
+      "concept_drift": {
+        "enabled": true,
+        "detection_window": 100,
+        "warning_level": 0.1,
+        "drift_level": 0.2
+      },
+      "market_regime_detection": {
+        "enabled": true,
+        "regime_types": ["trending", "ranging", "volatile", "calm"],
+        "transition_probabilities": true
+      }
+    }
+  }
+}

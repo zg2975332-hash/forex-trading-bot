@@ -1,0 +1,377 @@
+{
+  "backtest_config": {
+    "metadata": {
+      "config_version": "2.1.0",
+      "created_date": "2024-01-15",
+      "last_modified": "2024-01-15",
+      "description": "Advanced Backtesting Configuration for AI Forex Trading Bot"
+    },
+    
+    "data_settings": {
+      "symbol": "EUR/USD",
+      "timeframe": "1H",
+      "test_periods": [
+        {
+          "name": "full_history",
+          "start_date": "2020-01-01",
+          "end_date": "2023-12-31",
+          "description": "Complete 4-year historical period"
+        },
+        {
+          "name": "bull_market",
+          "start_date": "2020-06-01", 
+          "end_date": "2021-05-31",
+          "description": "Post-COVID recovery bull market"
+        },
+        {
+          "name": "bear_market",
+          "start_date": "2022-01-01",
+          "end_date": "2022-12-31",
+          "description": "High inflation bear market"
+        },
+        {
+          "name": "volatile_period",
+          "start_date": "2023-01-01",
+          "end_date": "2023-12-31",
+          "description": "Recent volatile market conditions"
+        }
+      ],
+      "data_source": "binance",
+      "data_quality": {
+        "fill_missing_data": true,
+        "remove_outliers": true,
+        "outlier_threshold": 3.0,
+        "validate_ohlc": true
+      },
+      "features_to_include": [
+        "price",
+        "volume", 
+        "technical_indicators",
+        "market_microstructure",
+        "sentiment_scores",
+        "economic_events"
+      ]
+    },
+
+    "capital_settings": {
+      "initial_capital": 10000.0,
+      "currency": "USD",
+      "commission_model": "percentage",
+      "commission_rate": 0.0002,
+      "slippage_model": "adaptive",
+      "base_slippage": 0.0001,
+      "funding_costs": false,
+      "margin_requirements": {
+        "leverage": 30,
+        "margin_call_level": 0.8,
+        "stop_out_level": 0.5
+      }
+    },
+
+    "strategy_settings": {
+      "strategies_to_test": [
+        {
+          "name": "deep_learning_lstm",
+          "enabled": true,
+          "weight": 0.4,
+          "parameters": {
+            "sequence_length": 60,
+            "confidence_threshold": 0.7,
+            "min_holding_period": 4,
+            "max_holding_period": 48
+          }
+        },
+        {
+          "name": "multi_timeframe_confluence",
+          "enabled": true, 
+          "weight": 0.3,
+          "parameters": {
+            "timeframes": ["15m", "1H", "4H"],
+            "confluence_required": 2,
+            "weighted_voting": true
+          }
+        },
+        {
+          "name": "sentiment_driven",
+          "enabled": true,
+          "weight": 0.2,
+          "parameters": {
+            "min_sentiment_score": 0.6,
+            "news_weight": 0.4,
+            "social_weight": 0.6,
+            "sentiment_lookback": 24
+          }
+        },
+        {
+          "name": "market_microstructure",
+          "enabled": true,
+          "weight": 0.1,
+          "parameters": {
+            "order_book_depth": 10,
+            "imbalance_threshold": 0.2,
+            "large_order_threshold": 0.1
+          }
+        }
+      ],
+      "ensemble_method": "weighted_average",
+      "min_ensemble_confidence": 0.65,
+      "strategy_timeout_seconds": 30
+    },
+
+    "risk_management": {
+      "position_sizing": {
+        "method": "kelly_optimal",
+        "max_position_size": 0.2,
+        "default_position_size": 0.1,
+        "dynamic_sizing": true,
+        "confidence_multiplier": {
+          "high_confidence": 1.5,
+          "medium_confidence": 1.0,
+          "low_confidence": 0.5
+        }
+      },
+      "stop_loss_settings": {
+        "method": "atr_based",
+        "atr_period": 14,
+        "atr_multiplier": 2.0,
+        "fixed_stop_loss_pct": 0.02,
+        "trailing_stop": true,
+        "trailing_activation_pct": 0.01
+      },
+      "take_profit_settings": {
+        "method": "risk_reward_ratio",
+        "risk_reward_ratio": 2.0,
+        "fixed_take_profit_pct": 0.04,
+        "partial_profits": true,
+        "partial_profit_levels": [
+          {"target_pct": 0.5, "close_pct": 0.3},
+          {"target_pct": 1.0, "close_pct": 0.5}
+        ]
+      },
+      "risk_limits": {
+        "max_drawdown_pct": 0.15,
+        "daily_loss_limit_pct": 0.05,
+        "weekly_loss_limit_pct": 0.1,
+        "max_consecutive_losses": 5,
+        "max_open_positions": 3
+      }
+    },
+
+    "walk_forward_analysis": {
+      "enabled": true,
+      "optimization_method": "genetic_algorithm",
+      "window_settings": {
+        "in_sample_window_size": 252,
+        "out_of_sample_window_size": 63,
+        "rolling_window": true,
+        "window_step_size": 21
+      },
+      "optimization_metrics": [
+        "sharpe_ratio",
+        "profit_factor", 
+        "max_drawdown",
+        "win_rate"
+      ],
+      "performance_thresholds": {
+        "min_win_rate": 0.45,
+        "min_profit_factor": 1.2,
+        "max_drawdown_pct": 0.2,
+        "min_sharpe_ratio": 0.5
+      }
+    },
+
+    "advanced_metrics": {
+      "calculate_metrics": [
+        "sharpe_ratio",
+        "sortino_ratio", 
+        "calmar_ratio",
+        "omega_ratio",
+        "var_95",
+        "cvar_95",
+        "max_drawdown",
+        "recovery_factor",
+        "profit_factor",
+        "expectancy",
+        "kelly_criterion",
+        "win_rate",
+        "loss_rate",
+        "avg_winning_trade",
+        "avg_losing_trade",
+        "largest_winning_trade",
+        "largest_losing_trade",
+        "avg_trade_duration",
+        "profit_per_day",
+        "volatility_annual",
+        "beta_market",
+        "alpha_annual",
+        "information_ratio",
+        "ulcer_index",
+        "tail_ratio",
+        "common_sense_ratio",
+        "outlier_win_ratio",
+        "outlier_loss_ratio",
+        "gain_to_pain_ratio",
+        "monthly_returns",
+        "rolling_sharpe",
+        "underwater_time"
+      ],
+      "confidence_intervals": {
+        "enabled": true,
+        "confidence_level": 0.95,
+        "bootstrap_samples": 1000
+      },
+      "monte_carlo_settings": {
+        "enabled": true,
+        "simulations": 10000,
+        "time_period_days": 252
+      }
+    },
+
+    "reporting_settings": {
+      "generate_reports": true,
+      "report_formats": ["html", "pdf", "json"],
+      "charts_to_include": [
+        "equity_curve",
+        "drawdown_chart",
+        "monthly_returns_heatmap",
+        "rolling_sharpe",
+        "underwater_plot",
+        "trade_distribution",
+        "win_loss_sequence",
+        "monte_carlo_simulation",
+        "performance_attribution"
+      ],
+      "save_trade_log": true,
+      "save_equity_curve": true,
+      "performance_benchmarks": [
+        {
+          "name": "buy_hold",
+          "description": "Simple buy and hold strategy"
+        },
+        {
+          "name": "random_strategy", 
+          "description": "Random entry strategy for comparison"
+        },
+        {
+          "name": "moving_average_crossover",
+          "description": "Traditional MA crossover strategy"
+        }
+      ]
+    },
+
+    "optimization_settings": {
+      "parameter_optimization": {
+        "enabled": true,
+        "method": "bayesian_optimization",
+        "max_evolutions": 100,
+        "fitness_metric": "sharpe_ratio",
+        "parameter_ranges": {
+          "stop_loss_pct": [0.005, 0.05],
+          "take_profit_pct": [0.01, 0.08],
+          "position_size": [0.05, 0.25],
+          "confidence_threshold": [0.5, 0.9],
+          "atr_multiplier": [1.0, 3.0]
+        }
+      },
+      "genetic_algorithm": {
+        "population_size": 50,
+        "generations": 20,
+        "mutation_rate": 0.1,
+        "crossover_rate": 0.8,
+        "elitism_count": 5
+      },
+      "bayesian_optimization": {
+        "initial_points": 10,
+        "n_iter": 50,
+        "acquisition_function": "ei",
+        "random_state": 42
+      }
+    },
+
+    "execution_settings": {
+      "order_execution": {
+        "execution_model": "realistic",
+        "latency_ms": 100,
+        "fill_probability": 0.95,
+        "partial_fills": true,
+        "market_impact": true
+      },
+      "market_hours": {
+        "trade_24_7": false,
+        "trading_hours": {
+          "start": "00:00",
+          "end": "23:59"
+        },
+        "break_periods": [
+          {
+            "start": "21:00",
+            "end": "22:00",
+            "reason": "Market close/open overlap"
+          }
+        ],
+        "avoid_news_events": true,
+        "high_impact_news_buffer_minutes": 30
+      }
+    },
+
+    "machine_learning_settings": {
+      "feature_engineering": {
+        "technical_indicators": [
+          "sma_10", "sma_20", "sma_50", "ema_12", "ema_26",
+          "rsi_14", "stochastic_14", "macd", "bollinger_bands",
+          "atr_14", "adx_14", "cci_20", "williams_r", "obv"
+        ],
+        "price_derived_features": [
+          "returns_1h", "returns_4h", "returns_1d",
+          "volatility_1h", "volatility_4h", "volatility_1d",
+          "skewness_1h", "kurtosis_1h", "hurst_exponent"
+        ],
+        "market_regime_features": [
+          "trend_strength", "volatility_regime", "market_state"
+        ]
+      },
+      "model_training": {
+        "train_test_split": 0.8,
+        "cross_validation_folds": 5,
+        "early_stopping_patience": 10,
+        "hyperparameter_tuning": true
+      }
+    },
+
+    "system_settings": {
+      "performance": {
+        "multiprocessing": true,
+        "max_workers": 4,
+        "memory_limit_gb": 8,
+        "cache_intermediate_results": true
+      },
+      "logging": {
+        "log_level": "INFO",
+        "log_file": "logs/backtest.log",
+        "verbose_output": true,
+        "save_debug_data": false
+      },
+      "output": {
+        "results_directory": "backtest_results",
+        "timestamp_format": "%Y%m%d_%H%M%S",
+        "compress_results": true
+      }
+    },
+
+    "validation_checks": {
+      "data_sufficiency": {
+        "min_data_points": 1000,
+        "warmup_period": 200
+      },
+      "strategy_validation": {
+        "min_trades_for_validity": 30,
+        "max_parameter_combinations": 1000
+      },
+      "sanity_checks": {
+        "check_negative_equity": true,
+        "validate_trade_sequence": true,
+        "verify_position_sizing": true
+      }
+    }
+  }
+}

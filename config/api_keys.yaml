@@ -1,0 +1,378 @@
+# API Keys Configuration for Forex Trading Bot
+# SECURITY WARNING: This file contains sensitive information
+# Never commit this file to version control
+# Use environment variables for production deployment
+
+# Binance API Configuration
+binance:
+  api_key: 
+  api_secret: 
+  testnet: true  # Use testnet for development
+  permissions:
+    - "spot"
+    - "margin"
+    - "futures"
+  rate_limits:
+    requests_per_minute: 1200
+    orders_per_second: 10
+    orders_per_day: 160000
+
+# Exness API Configuration  
+exness:
+  api_key: "YOUR_EXNESS_API_KEY_HERE"
+  api_secret: "YOUR_EXNESS_API_SECRET_HERE"
+  account_id: "YOUR_EXNESS_ACCOUNT_ID"
+  demo_account: true  # Use demo account for testing
+  permissions:
+    - "read"
+    - "trade"
+    - "market_data"
+  settings:
+    leverage: 100
+    base_currency: "USD"
+
+# Alpha Vantage API (Market Data)
+alpha_vantage:
+  api_key: "YOUR_ALPHA_VANTAGE_API_KEY_HERE"
+  premium: false
+  rate_limit: "75 requests per minute"
+
+# News API Configuration
+news_api:
+  api_key: "YOUR_NEWS_API_KEY_HERE"
+  sources:
+    - "bloomberg"
+    - "reuters"
+    - "financial-times"
+    - "business-insider"
+  categories:
+    - "business"
+    - "finance"
+    - "economics"
+
+# Twitter API for Social Sentiment
+twitter:
+  api_key: "YOUR_TWITTER_API_KEY_HERE"
+  api_secret: "YOUR_TWITTER_API_SECRET_HERE"
+  bearer_token: "YOUR_TWITTER_BEARER_TOKEN_HERE"
+  access_token: "YOUR_TWITTER_ACCESS_TOKEN_HERE"
+  access_token_secret: "YOUR_TWITTER_ACCESS_TOKEN_SECRET_HERE"
+
+# Reddit API for Social Sentiment
+reddit:
+  client_id: "YOUR_REDDIT_CLIENT_ID_HERE"
+  client_secret: "YOUR_REDDIT_CLIENT_SECRET_HERE"
+  user_agent: "ForexTradingBot/1.0 by YourUsername"
+  subreddits:
+    - "Forex"
+    - "algotrading"
+    - "investing"
+    - "wallstreetbets"
+
+# Telegram Bot API for Notifications
+telegram:
+  bot_token: "YOUR_TELEGRAM_BOT_TOKEN_HERE"
+  chat_id: "YOUR_TELEGRAM_CHAT_ID_HERE"
+  alerts_channel: "@your_alerts_channel"
+
+# Discord Webhook for Notifications
+discord:
+  webhook_url: "YOUR_DISCORD_WEBHOOK_URL_HERE"
+  bot_token: "YOUR_DISCORD_BOT_TOKEN_HERE"
+  channel_id: "YOUR_DISCORD_CHANNEL_ID_HERE"
+
+# Email Configuration for Alerts
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  username: "your_email@gmail.com"
+  password: "YOUR_EMAIL_APP_PASSWORD_HERE"
+  from_address: "your_email@gmail.com"
+  to_addresses:
+    - "alerts@yourdomain.com"
+    - "mobile@yourdomain.com"
+
+# Database Configuration
+database:
+  # PostgreSQL Configuration
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "forex_bot"
+    username: "forex_user"
+    password: 
+    ssl_mode: "prefer"
+
+  # Redis Configuration for Caching
+  redis:
+    host: "localhost"
+    port: 6379
+    password: "YOUR_REDIS_PASSWORD_HERE"
+    database: 0
+
+# AWS Configuration for Deployment
+aws:
+  access_key_id: "YOUR_AWS_ACCESS_KEY_ID_HERE"
+  secret_access_key: "YOUR_AWS_SECRET_ACCESS_KEY_HERE"
+  region: "us-east-1"
+  services:
+    ec2:
+      instance_type: "t3.medium"
+      ami_id: "ami-0c02fb55956c7d316"
+    s3:
+      bucket_name: "forex-bot-data"
+    cloudwatch:
+      log_group: "forex-bot-logs"
+
+# Encryption Configuration
+encryption:
+  algorithm: "AES-256-GCM"
+  key_derivation: "pbkdf2_sha256"
+  salt: "YOUR_ENCRYPTION_SALT_HERE"
+  # Master password for encrypting other keys (should be in environment variables)
+  master_password: "MASTER_PASSWORD_FROM_ENV"
+
+# Trading Parameters
+trading:
+  # Risk Management
+  risk_per_trade: 0.02  # 2% risk per trade
+  max_drawdown: 0.15    # 15% maximum drawdown
+  daily_loss_limit: 0.05 # 5% daily loss limit
+  
+  # Position Sizing
+  default_lot_size: 0.1
+  max_position_size: 1.0
+  scaling_factor: 0.1
+  
+  # Trading Hours (UTC)
+  trading_hours:
+    start: "00:00"
+    end: "23:59"
+    break_start: "21:00"  # Market close
+    break_end: "22:00"    # Market open
+  
+  # Symbols and Timeframes
+  symbols:
+    - "EUR/USD"
+    - "GBP/USD" 
+    - "USD/JPY"
+    - "AUD/USD"
+    - "USD/CAD"
+  
+  timeframes:
+    - "1m"
+    - "5m"
+    - "15m"
+    - "1H"
+    - "4H"
+    - "1D"
+
+# Model Configuration
+models:
+  # LSTM Model Parameters
+  lstm:
+    sequence_length: 60
+    batch_size: 32
+    epochs: 100
+    learning_rate: 0.001
+    hidden_layers: [50, 25]
+    dropout_rate: 0.2
+    
+  # Reinforcement Learning Parameters
+  reinforcement_learning:
+    learning_rate: 0.0001
+    gamma: 0.99
+    epsilon_start: 1.0
+    epsilon_end: 0.01
+    epsilon_decay: 0.995
+    memory_size: 10000
+    batch_size: 32
+    
+  # Ensemble Model Weights
+  ensemble_weights:
+    lstm: 0.4
+    technical: 0.3
+    sentiment: 0.2
+    microstructure: 0.1
+
+# Strategy Configuration
+strategies:
+  deep_learning:
+    enabled: true
+    confidence_threshold: 0.7
+    min_holding_period: 4  # hours
+    max_holding_period: 24 # hours
+    
+  multi_timeframe:
+    enabled: true
+    timeframes: ["15m", "1H", "4H"]
+    confluence_required: 2  # min number of timeframes agreeing
+    
+  market_making:
+    enabled: false
+    spread_target: 0.0002
+    max_position: 0.5
+    
+  sentiment_trading:
+    enabled: true
+    min_sentiment_score: 0.6
+    news_weight: 0.4
+    social_weight: 0.6
+
+# Monitoring and Alerts
+monitoring:
+  # Performance Alerts
+  alerts:
+    - type: "drawdown"
+      threshold: 0.1  # 10%
+      channel: ["telegram", "email"]
+      
+    - type: "weekly_pnl"
+      threshold: -0.05  # -5%
+      channel: ["telegram", "email"]
+      
+    - type: "connection_lost"
+      threshold: 300  # 5 minutes
+      channel: ["sms", "telegram"]
+      
+    - type: "large_trade"
+      threshold: 0.1  # 10% of capital
+      channel: ["telegram"]
+  
+  # Health Checks
+  health_checks:
+    - name: "api_connectivity"
+      interval: 60  # seconds
+      
+    - name: "model_performance"
+      interval: 3600  # 1 hour
+      
+    - name: "data_freshness"
+      interval: 300  # 5 minutes
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file_path: "logs/forex_bot.log"
+  max_file_size: "100MB"
+  backup_count: 10
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # External Logging Services
+  sentry:
+    dsn: "YOUR_SENTRY_DSN_HERE"
+    enabled: true
+    
+  datadog:
+    api_key: "YOUR_DATADOG_API_KEY_HERE"
+    enabled: false
+
+# Backup and Recovery
+backup:
+  enabled: true
+  interval: 3600  # 1 hour
+  retention_days: 7
+  locations:
+    - "local"
+    - "s3"
+  
+  # What to backup
+  items:
+    - "trades"
+    - "models"
+    - "config"
+    - "logs"
+
+# Security Settings
+security:
+  # API Rate Limiting
+  rate_limits:
+    binance: "1200/60s"
+    exness: "1000/60s" 
+    news_api: "75/60s"
+    twitter: "900/15m"
+  
+  # IP Whitelisting
+  allowed_ips:
+    - "127.0.0.1"
+    - "192.168.1.0/24"
+    - "YOUR_SERVER_IP_HERE"
+  
+  # SSL/TLS Settings
+  ssl:
+    verify: true
+    cert_path: "/path/to/certificate.pem"
+    
+  # Two-Factor Authentication
+  two_factor:
+    enabled: true
+    required_for: ["trading", "withdrawal"]
+
+# Environment Specific Settings
+environments:
+  development:
+    debug: true
+    logging_level: "DEBUG"
+    use_testnet: true
+    paper_trading: true
+    
+  staging:
+    debug: false  
+    logging_level: "INFO"
+    use_testnet: true
+    paper_trading: false
+    
+  production:
+    debug: false
+    logging_level: "WARNING"
+    use_testnet: false
+    paper_trading: false
+    monitoring:
+      enabled: true
+      alerts:
+        - "drawdown"
+        - "performance"
+        - "errors"
+
+# Feature Flags
+features:
+  # AI/ML Features
+  ai_trading: true
+  sentiment_analysis: true
+  reinforcement_learning: true
+  market_microstructure: true
+  
+  # Risk Management Features  
+  dynamic_position_sizing: true
+  correlation_analysis: true
+  monte_carlo_simulation: true
+  var_calculation: true
+  
+  # Trading Features
+  multiple_strategies: true
+  smart_order_routing: true
+  hft_optimization: false  # High Frequency Trading
+  
+  # Monitoring Features
+  real_time_dashboard: true
+  mobile_alerts: true
+  performance_tracking: true
+
+# Version Information
+version: "1.0.0"
+last_updated: "2024-01-15"
+config_version: "1.2"
+
+# IMPORTANT SECURITY NOTES:
+# 1. Never commit real API keys to version control
+# 2. Use environment variables for sensitive data
+# 3. Encrypt this file in production
+# 4. Regularly rotate API keys
+# 5. Use different keys for different environments
+
+# Environment Variable Overrides Example:
+# In production, set these environment variables:
+# BINANCE_API_KEY=your_actual_key
+# BINANCE_API_SECRET=your_actual_secret
+# DATABASE_PASSWORD=your_actual_password
+# etc.

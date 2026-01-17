@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 FOREX TRADING BOT - MASTER DASHBOARD</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #0d6efd;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-light: #f8f9fa;
+            --text-muted: #6c757d;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            border-bottom: 2px solid var(--primary-color);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .card-custom {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.2);
+            border-color: var(--primary-color);
+        }
+        
+        .card-header-custom {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-bottom: 1px solid #333;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .metric-positive {
+            color: var(--primary-color);
+        }
+        
+        .metric-negative {
+            color: var(--danger-color);
+        }
+        
+        .metric-neutral {
+            color: var(--warning-color);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-healthy {
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        .status-warning {
+            background-color: var(--warning-color);
+            box-shadow: 0 0 10px var(--warning-color);
+        }
+        
+        .status-danger {
+            background-color: var(--danger-color);
+            box-shadow: 0 0 10px var(--danger-color);
+        }
+        
+        .btn-custom {
+            border-radius: 25px;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary-color), #0a58ca);
+            color: white;
+        }
+        
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--primary-color), #00cc66);
+            color: black;
+        }
+        
+        .btn-danger-custom {
+            background: linear-gradient(135deg, var(--danger-color), #c82333);
+            color: white;
+        }
+        
+        .btn-warning-custom {
+            background: linear-gradient(135deg, var(--warning-color), #e0a800);
+            color: black;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .signal-buy {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .signal-sell {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+        
+        .signal-hold {
+            color: var(--warning-color);
+            font-weight: bold;
+        }
+        
+        .module-status {
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid;
+        }
+        
+        .module-healthy {
+            border-left-color: var(--primary-color);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .module-warning {
+            border-left-color: var(--warning-color);
+            background: rgba(255, 193, 7, 0.1);
+        }
+        
+        .module-danger {
+            border-left-color: var(--danger-color);
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .news-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #333;
+            transition: background-color 0.3s ease;
+        }
+        
+        .news-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .news-positive {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .news-negative {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .news-neutral {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .trading-pair {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc66;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .metric-value {
+                font-size: 2rem;
+            }
+            
+            .card-custom {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="h2 mb-0">
+                        <i class="fas fa-robot text-primary me-2"></i>
+                        FOREX TRADING BOT
+                        <small class="text-muted d-block mt-1">Professional Automated Trading System</small>
+                    </h1>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="me-3">
+                            <span class="status-indicator status-healthy"></span>
+                            <span id="system-status">SYSTEM ONLINE</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-success-custom btn-custom me-2" onclick="refreshAllData()">
+                                <i class="fas fa-sync-alt me-2"></i>Refresh
+                            </button>
+                            <button class="btn btn-primary-custom btn-custom" onclick="showSettings()">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <div class="container-fluid">
+        <!-- System Overview Row -->
+        <div class="row">
+            <!-- System Health -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-heart-pulse me-2"></i>SYSTEM HEALTH
+                    </div>
+                    <div class="card-body">
+                        <div class="metric-card">
+                            <div class="metric-value metric-positive" id="uptime-value">00:00:00</div>
+                            <div class="text-muted">System Uptime</div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="module-status module-healthy">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <span>Core Systems</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="module-status module-healthy">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <span>Data Feed</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="module-status module-healthy">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <span>Risk Management</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="module-status module-healthy">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <span>Trading Engine</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-chart-line me-2"></i>PERFORMANCE
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="metric-value metric-positive" id="total-pnl">+$2,847</div>
+                                <div class="text-muted">Total P&L</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="metric-value metric-positive" id="win-rate">68.5%</div>
+                                <div class="text-muted">Win Rate</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value metric-positive" id="sharpe-ratio">1.42</div>
+                                <div class="text-muted">Sharpe Ratio</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value metric-negative" id="max-dd">-4.2%</div>
+                                <div class="text-muted">Max Drawdown</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trading Activity -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-exchange-alt me-2"></i>TRADING ACTIVITY
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-4 mb-3">
+                                <div class="metric-value metric-neutral" id="active-trades">3</div>
+                                <div class="text-muted">Active Trades</div>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <div class="metric-value metric-neutral" id="today-trades">12</div>
+                                <div class="text-muted">Today's Trades</div>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <div class="metric-value metric-positive" id="success-rate">83%</div>
+                                <div class="text-muted">Success Rate</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>EUR/USD</span>
+                                <span class="signal-buy">BUY</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>GBP/USD</span>
+                                <span class="signal-sell">SELL</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>USD/JPY</span>
+                                <span class="signal-hold">HOLD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Metrics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-shield-alt me-2"></i>RISK METRICS
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="metric-value metric-warning" id="var-95">$1,250</div>
+                                <div class="text-muted">VaR (95%)</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="metric-value metric-positive" id="risk-score">7.2/10</div>
+                                <div class="text-muted">Risk Score</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value metric-positive" id="exposure">42%</div>
+                                <div class="text-muted">Exposure</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value metric-positive" id="liquidity">85%</div>
+                                <div class="text-muted">Liquidity</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Analytics Row -->
+        <div class="row">
+            <!-- Main Price Chart -->
+            <div class="col-xl-8">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="fas fa-chart-candlestick me-2"></i>LIVE PRICE CHART
+                        </span>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary active">1H</button>
+                            <button class="btn btn-outline-primary">4H</button>
+                            <button class="btn btn-outline-primary">1D</button>
+                            <button class="btn btn-outline-primary">1W</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="main-price-chart" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Sentiment -->
+            <div class="col-xl-4">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-brain me-2"></i>MARKET SENTIMENT
+                    </div>
+                    <div class="card-body">
+                        <div id="sentiment-chart" style="height: 180px;" class="mb-3"></div>
+                        
+                        <h6 class="mb-3">Current Signals</h6>
+                        <div class="news-item news-positive">
+                            <div class="d-flex justify-content-between">
+                                <strong class="trading-pair">EUR/USD</strong>
+                                <span class="signal-buy">STRONG BUY</span>
+                            </div>
+                            <small class="text-muted">Bullish momentum with 85% confidence</small>
+                        </div>
+                        
+                        <div class="news-item news-negative">
+                            <div class="d-flex justify-content-between">
+                                <strong class="trading-pair">GBP/USD</strong>
+                                <span class="signal-sell">SELL</span>
+                            </div>
+                            <small class="text-muted">Bearish pressure, 72% confidence</small>
+                        </div>
+                        
+                        <div class="news-item news-neutral">
+                            <div class="d-flex justify-content-between">
+                                <strong class="trading-pair">USD/JPY</strong>
+                                <span class="signal-hold">HOLD</span>
+                            </div>
+                            <small class="text-muted">Neutral market, 45% confidence</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Pairs and Analytics -->
+        <div class="row">
+            <!-- Trading Pairs Overview -->
+            <div class="col-xl-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-list me-2"></i>TRADING PAIRS OVERVIEW
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pair</th>
+                                        <th>Price</th>
+                                        <th>Change</th>
+                                        <th>Signal</th>
+                                        <th>Confidence</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pairs-table">
+                                    <!-- Data will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Indicators -->
+            <div class="col-xl-6">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-wave-square me-2"></i>TECHNICAL INDICATORS
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="rsi-chart" style="height: 150px;"></div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">RSI (14)</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div id="macd-chart" style="height: 150px;"></div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">MACD</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div id="volume-chart" style="height: 120px;"></div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">Volume</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Management and News -->
+        <div class="row">
+            <!-- Risk Management -->
+            <div class="col-xl-4">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-exclamation-triangle me-2"></i>RISK MANAGEMENT
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Portfolio Risk</span>
+                                <span class="metric-positive">LOW</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Market Volatility</span>
+                                <span class="metric-warning">MEDIUM</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Leverage Usage</span>
+                                <span class="metric-positive">SAFE</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-info" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Risk Advisory:</strong> Monitor GBP pairs for increased volatility
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economic Calendar -->
+            <div class="col-xl-4">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-calendar-alt me-2"></i>ECONOMIC CALENDAR
+                    </div>
+                    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                        <div class="news-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>USD: Fed Interest Rate Decision</strong>
+                                <span class="badge bg-danger">HIGH</span>
+                            </div>
+                            <small class="text-muted">Today, 14:00 EST</small>
+                        </div>
+                        
+                        <div class="news-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>EUR: ECB Press Conference</strong>
+                                <span class="badge bg-warning">MEDIUM</span>
+                            </div>
+                            <small class="text-muted">Tomorrow, 08:30 EST</small>
+                        </div>
+                        
+                        <div class="news-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>GBP: CPI Data Release</strong>
+                                <span class="badge bg-warning">MEDIUM</span>
+                            </div>
+                            <small class="text-muted">In 2 days, 04:00 EST</small>
+                        </div>
+                        
+                        <div class="news-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>JPY: Bank of Japan Meeting</strong>
+                                <span class="badge bg-info">LOW</span>
+                            </div>
+                            <small class="text-muted">In 3 days, 23:50 EST</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Logs -->
+            <div class="col-xl-4">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-terminal me-2"></i>SYSTEM LOGS
+                    </div>
+                    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                        <div class="log-entry">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-success">
+                                    <i class="fas fa-check-circle me-2"></i>Trade Executed
+                                </span>
+                                <small class="text-muted">12:30:45</small>
+                            </div>
+                            <small>BUY 0.5 LOT EUR/USD @ 1.08542</small>
+                        </div>
+                        
+                        <div class="log-entry mt-2">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-info">
+                                    <i class="fas fa-info-circle me-2"></i>Signal Generated
+                                </span>
+                                <small class="text-muted">12:25:30</small>
+                            </div>
+                            <small>Strong BUY signal for GBP/USD (78% confidence)</small>
+                        </div>
+                        
+                        <div class="log-entry mt-2">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>Risk Check
+                                </span>
+                                <small class="text-muted">12:20:15</small>
+                            </div>
+                            <small>Portfolio exposure within safe limits</small>
+                        </div>
+                        
+                        <div class="log-entry mt-2">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-success">
+                                    <i class="fas fa-sync-alt me-2"></i>Data Updated
+                                </span>
+                                <small class="text-muted">12:15:00</small>
+                            </div>
+                            <small>Market data refresh completed</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom">
+                        <i class="fas fa-gamepad me-2"></i>CONTROL PANEL
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3 mb-3">
+                                <button class="btn btn-success-custom btn-custom w-100" onclick="startTrading()">
+                                    <i class="fas fa-play me-2"></i>Start Trading
+                                </button>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <button class="btn btn-warning-custom btn-custom w-100" onclick="pauseTrading()">
+                                    <i class="fas fa-pause me-2"></i>Pause Trading
+                                </button>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <button class="btn btn-danger-custom btn-custom w-100" onclick="emergencyStop()">
+                                    <i class="fas fa-stop me-2"></i>Emergency Stop
+                                </button>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <button class="btn btn-primary-custom btn-custom w-100" onclick="generateReport()">
+                                    <i class="fas fa-download me-2"></i>Export Report
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary">Real-time Dashboard</button>
+                                    <button class="btn btn-outline-primary">Advanced Analytics</button>
+                                    <button class="btn btn-outline-primary">Backtesting</button>
+                                    <button class="btn btn-outline-primary">Strategy Config</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-3 text-center text-muted">
+        <div class="container">
+            <p class="mb-0">
+                <strong>FOREX TRADING BOT</strong> | Professional Automated Trading System | 
+                <span id="current-time"></span>
+            </p>
+            <small>
+                System Version: 2.0.0 | Last Update: <span id="last-update">Loading...</span> |
+                <span class="text-success"><i class="fas fa-circle me-1"></i>LIVE</span>
+            </small>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize charts and data
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            startDataUpdates();
+            updateCurrentTime();
+        });
+
+        // Chart initialization
+        function initializeCharts() {
+            // Main Price Chart
+            const priceChart = document.getElementById('main-price-chart');
+            Plotly.newPlot(priceChart, [{
+                type: 'candlestick',
+                x: generateTimeData(50),
+                open: generatePriceData(100, 50),
+                high: generatePriceData(102, 50),
+                low: generatePriceData(98, 50),
+                close: generatePriceData(101, 50),
+                increasing: {line: {color: '#00ff88'}},
+                decreasing: {line: {color: '#dc3545'}}
+            }], {
+                template: 'plotly_dark',
+                height: 400,
+                margin: {l: 50, r: 50, t: 30, b: 50},
+                xaxis: {title: 'Time'},
+                yaxis: {title: 'Price'}
+            });
+
+            // Sentiment Chart
+            const sentimentChart = document.getElementById('sentiment-chart');
+            Plotly.newPlot(sentimentChart, [{
+                type: 'indicator',
+                mode: "gauge+number+delta",
+                value: 68,
+                delta: {'reference': 50},
+                gauge: {
+                    axis: {'range': [0, 100]},
+                    steps: [
+                        {'range': [0, 30], 'color': "lightgray"},
+                        {'range': [30, 70], 'color': "gray"},
+                        {'range': [70, 100], 'color': "darkgray"}
+                    ],
+                    threshold: {
+                        'line': {'color': "red", 'width': 4},
+                        'thickness': 0.75,
+                        'value': 90
+                    }
+                }
+            }], {
+                template: 'plotly_dark',
+                height: 180,
+                margin: {l: 30, r: 30, t: 30, b: 30}
+            });
+
+            // Initialize other charts
+            initializeTechnicalCharts();
+            populateTradingPairs();
+        }
+
+        // Generate sample data
+        function generateTimeData(count) {
+            const now = new Date();
+            return Array.from({length: count}, (_, i) => {
+                const date = new Date(now);
+                date.setMinutes(date.getMinutes() - (count - i) * 5);
+                return date;
+            });
+        }
+
+        function generatePriceData(base, count) {
+            return Array.from({length: count}, (_, i) => 
+                base + (Math.random() - 0.5) * 10
+            );
+        }
+
+        // Technical charts
+        function initializeTechnicalCharts() {
+            // RSI Chart
+            Plotly.newPlot('rsi-chart', [{
+                y: Array.from({length: 20}, () => Math.random() * 100),
+                type: 'scatter',
+                line: {color: '#ff6b6b'}
+            }], {
+                template: 'plotly_dark',
+                height: 150,
+                margin: {l: 20, r: 20, t: 20, b: 20},
+                yaxis: {range: [0, 100]}
+            });
+
+            // MACD Chart
+            Plotly.newPlot('macd-chart', [{
+                y: Array.from({length: 20}, () => (Math.random() - 0.5) * 2),
+                type: 'scatter',
+                line: {color: '#4ECDC4'}
+            }], {
+                template: 'plotly_dark',
+                height: 150,
+                margin: {l: 20, r: 20, t: 20, b: 20}
+            });
+
+            // Volume Chart
+            Plotly.newPlot('volume-chart', [{
+                y: Array.from({length: 20}, () => Math.random() * 1000),
+                type: 'bar',
+                marker: {color: '#45B7D1'}
+            }], {
+                template: 'plotly_dark',
+                height: 120,
+                margin: {l: 20, r: 20, t: 20, b: 20}
+            });
+        }
+
+        // Populate trading pairs table
+        function populateTradingPairs() {
+            const pairs = [
+                {symbol: 'EUR/USD', price: '1.08542', change: '+0.24%', signal: 'BUY', confidence: '85%'},
+                {symbol: 'GBP/USD', price: '1.26580', change: '-0.15%', signal: 'SELL', confidence: '72%'},
+                {symbol: 'USD/JPY', price: '148.235', change: '+0.08%', signal: 'HOLD', confidence: '45%'},
+                {symbol: 'AUD/USD', price: '0.65218', change: '+0.32%', signal: 'BUY', confidence: '68%'},
+                {symbol: 'USD/CAD', price: '1.35890', change: '-0.12%', signal: 'SELL', confidence: '61%'}
+            ];
+
+            const tableBody = document.getElementById('pairs-table');
+            tableBody.innerHTML = pairs.map(pair => `
+                <tr>
+                    <td><strong>${pair.symbol}</strong></td>
+                    <td>${pair.price}</td>
+                    <td class="${pair.change.includes('+') ? 'text-success' : 'text-danger'}">${pair.change}</td>
+                    <td class="${pair.signal === 'BUY' ? 'signal-buy' : pair.signal === 'SELL' ? 'signal-sell' : 'signal-hold'}">${pair.signal}</td>
+                    <td>${pair.confidence}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary">Trade</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Data updates
+        function startDataUpdates() {
+            setInterval(updateMetrics, 2000);
+            setInterval(updateCharts, 5000);
+        }
+
+        function updateMetrics() {
+            // Simulate metric updates
+            document.getElementById('total-pnl').textContent = 
+                '+$' + (2847 + Math.random() * 50).toFixed(0);
+            
+            document.getElementById('win-rate').textContent = 
+                (68 + Math.random() * 2).toFixed(1) + '%';
+            
+            document.getElementById('active-trades').textContent = 
+                Math.floor(2 + Math.random() * 3);
+        }
+
+        function updateCharts() {
+            // In a real application, this would update chart data
+            console.log('Updating charts...');
+        }
+
+        // Time functions
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleString();
+            document.getElementById('last-update').textContent = 
+                now.toLocaleTimeString();
+            
+            // Update uptime
+            const uptimeElement = document.getElementById('uptime-value');
+            const startTime = new Date(now - 4 * 60 * 60 * 1000); // 4 hours ago
+            const uptime = Math.floor((now - startTime) / 1000);
+            const hours = Math.floor(uptime / 3600);
+            const minutes = Math.floor((uptime % 3600) / 60);
+            const seconds = uptime % 60;
+            uptimeElement.textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            setTimeout(updateCurrentTime, 1000);
+        }
+
+        // Control functions
+        function refreshAllData() {
+            const refreshBtn = event.target;
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<span class="loading-spinner me-2"></span>Refreshing...';
+            refreshBtn.disabled = true;
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.disabled = false;
+                showNotification('Data refreshed successfully!', 'success');
+            }, 2000);
+        }
+
+        function startTrading() {
+            showNotification('Trading started successfully!', 'success');
+            document.getElementById('system-status').textContent = 'TRADING ACTIVE';
+        }
+
+        function pauseTrading() {
+            showNotification('Trading paused.', 'warning');
+            document.getElementById('system-status').textContent = 'TRADING PAUSED';
+        }
+
+        function emergencyStop() {
+            if (confirm('Are you sure you want to execute emergency stop? All trades will be closed immediately.')) {
+                showNotification('EMERGENCY STOP ACTIVATED!', 'danger');
+                document.getElementById('system-status').textContent = 'EMERGENCY STOP';
+                document.getElementById('system-status').className = 'text-danger';
+            }
+        }
+
+        function generateReport() {
+            showNotification('Report generation started...', 'info');
+            setTimeout(() => {
+                showNotification('Report downloaded successfully!', 'success');
+            }, 3000);
+        }
+
+        function showSettings() {
+            showNotification('Settings panel opened', 'info');
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Dashboard error:', e.error);
+            showNotification('A system error occurred. Check console for details.', 'danger');
+        });
+    </script>
+</body>
+</html>

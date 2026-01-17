@@ -1,0 +1,455 @@
+{
+  "trading_pairs": {
+    "metadata": {
+      "config_version": "2.0.0",
+      "created_date": "2024-01-15",
+      "last_modified": "2024-01-15",
+      "description": "Trading Pairs Configuration for Forex AI Trading Bot",
+      "total_pairs": 28,
+      "base_currency": "USD"
+    },
+
+    "major_pairs": [
+      {
+        "symbol": "EUR/USD",
+        "enabled": true,
+        "display_name": "Euro vs US Dollar",
+        "category": "major",
+        "priority": 1,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0003,
+        "slippage_limit": 0.0002,
+        "volatility_rating": "medium",
+        "trading_hours": "24/5",
+        "liquidity": "very_high",
+        "commission": 0.0002,
+        "swap_long": -0.8,
+        "swap_short": 0.2,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "GBP/USD": 0.7,
+          "USD/CHF": -0.9,
+          "AUD/USD": 0.6
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["ECB", "Fed", "NFP", "CPI"],
+        "trading_strategy": "trend_following"
+      },
+      {
+        "symbol": "GBP/USD",
+        "enabled": true,
+        "display_name": "British Pound vs US Dollar",
+        "category": "major",
+        "priority": 2,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0004,
+        "slippage_limit": 0.0003,
+        "volatility_rating": "high",
+        "trading_hours": "24/5",
+        "liquidity": "high",
+        "commission": 0.0002,
+        "swap_long": -0.6,
+        "swap_short": 0.4,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/USD": 0.7,
+          "USD/CHF": -0.8,
+          "EUR/GBP": -0.9
+        },
+        "news_sensitivity": "very_high",
+        "economic_events": ["BOE", "Fed", "GDP", "CPI"],
+        "trading_strategy": "breakout"
+      },
+      {
+        "symbol": "USD/JPY",
+        "enabled": true,
+        "display_name": "US Dollar vs Japanese Yen",
+        "category": "major",
+        "priority": 3,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 9.0,
+        "spread_limit": 0.0003,
+        "slippage_limit": 0.0002,
+        "volatility_rating": "medium",
+        "trading_hours": "24/5",
+        "liquidity": "very_high",
+        "commission": 0.0002,
+        "swap_long": 0.3,
+        "swap_short": -1.2,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/JPY": 0.9,
+          "GBP/JPY": 0.8,
+          "USD/CHF": 0.7
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["BOJ", "Fed", "Interest Rates"],
+        "trading_strategy": "carry_trade"
+      },
+      {
+        "symbol": "USD/CHF",
+        "enabled": true,
+        "display_name": "US Dollar vs Swiss Franc",
+        "category": "major",
+        "priority": 4,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0004,
+        "slippage_limit": 0.0003,
+        "volatility_rating": "low",
+        "trading_hours": "24/5",
+        "liquidity": "high",
+        "commission": 0.0002,
+        "swap_long": 0.1,
+        "swap_short": -0.9,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/USD": -0.9,
+          "GBP/USD": -0.8,
+          "EUR/CHF": 0.8
+        },
+        "news_sensitivity": "medium",
+        "economic_events": ["SNB", "Fed"],
+        "trading_strategy": "safe_haven"
+      },
+      {
+        "symbol": "AUD/USD",
+        "enabled": true,
+        "display_name": "Australian Dollar vs US Dollar",
+        "category": "major",
+        "priority": 5,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0005,
+        "slippage_limit": 0.0003,
+        "volatility_rating": "high",
+        "trading_hours": "24/5",
+        "liquidity": "high",
+        "commission": 0.0002,
+        "swap_long": -0.4,
+        "swap_short": 0.6,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "NZD/USD": 0.9,
+          "EUR/USD": 0.6,
+          "Gold": 0.7
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["RBA", "China Data", "Commodity Prices"],
+        "trading_strategy": "commodity_currency"
+      },
+      {
+        "symbol": "USD/CAD",
+        "enabled": true,
+        "display_name": "US Dollar vs Canadian Dollar",
+        "category": "major",
+        "priority": 6,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0005,
+        "slippage_limit": 0.0003,
+        "volatility_rating": "medium",
+        "trading_hours": "24/5",
+        "liquidity": "high",
+        "commission": 0.0002,
+        "swap_long": 0.2,
+        "swap_short": -0.8,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "Oil": -0.8,
+          "AUD/USD": 0.5,
+          "USD/CHF": 0.6
+        },
+        "news_sensitivity": "medium",
+        "economic_events": ["BOC", "Oil Prices", "GDP"],
+        "trading_strategy": "oil_correlation"
+      },
+      {
+        "symbol": "NZD/USD",
+        "enabled": true,
+        "display_name": "New Zealand Dollar vs US Dollar",
+        "category": "major",
+        "priority": 7,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 50.0,
+        "pip_value": 10.0,
+        "spread_limit": 0.0006,
+        "slippage_limit": 0.0004,
+        "volatility_rating": "high",
+        "trading_hours": "24/5",
+        "liquidity": "medium",
+        "commission": 0.0002,
+        "swap_long": -0.3,
+        "swap_short": 0.7,
+        "timeframes": ["1m", "5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "AUD/USD": 0.9,
+          "EUR/USD": 0.5,
+          "Dairy_Prices": 0.6
+        },
+        "news_sensitivity": "medium",
+        "economic_events": ["RBNZ", "Dairy Prices", "China Data"],
+        "trading_strategy": "commodity_currency"
+      }
+    ],
+
+    "minor_pairs": [
+      {
+        "symbol": "EUR/GBP",
+        "enabled": true,
+        "display_name": "Euro vs British Pound",
+        "category": "minor",
+        "priority": 8,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 30.0,
+        "pip_value": 12.0,
+        "spread_limit": 0.0006,
+        "slippage_limit": 0.0004,
+        "volatility_rating": "medium",
+        "trading_hours": "24/5",
+        "liquidity": "medium",
+        "commission": 0.0003,
+        "swap_long": -0.5,
+        "swap_short": 0.5,
+        "timeframes": ["5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/USD": 0.8,
+          "GBP/USD": -0.9
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["ECB", "BOE"],
+        "trading_strategy": "range_trading"
+      },
+      {
+        "symbol": "EUR/JPY",
+        "enabled": true,
+        "display_name": "Euro vs Japanese Yen",
+        "category": "minor",
+        "priority": 9,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 30.0,
+        "pip_value": 11.0,
+        "spread_limit": 0.0007,
+        "slippage_limit": 0.0005,
+        "volatility_rating": "high",
+        "trading_hours": "24/5",
+        "liquidity": "medium",
+        "commission": 0.0003,
+        "swap_long": -1.0,
+        "swap_short": 0.2,
+        "timeframes": ["5m", "15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/USD": 0.9,
+          "USD/JPY": 0.9
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["ECB", "BOJ"],
+        "trading_strategy": "carry_trade"
+      },
+      {
+        "symbol": "GBP/JPY",
+        "enabled": true,
+        "display_name": "British Pound vs Japanese Yen",
+        "category": "minor",
+        "priority": 10,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 20.0,
+        "pip_value": 12.0,
+        "spread_limit": 0.0009,
+        "slippage_limit": 0.0006,
+        "volatility_rating": "very_high",
+        "trading_hours": "24/5",
+        "liquidity": "medium",
+        "commission": 0.0003,
+        "swap_long": -0.8,
+        "swap_short": 0.4,
+        "timeframes": ["15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "GBP/USD": 0.9,
+          "USD/JPY": 0.9
+        },
+        "news_sensitivity": "very_high",
+        "economic_events": ["BOE", "BOJ"],
+        "trading_strategy": "high_volatility"
+      },
+      {
+        "symbol": "EUR/CAD",
+        "enabled": true,
+        "display_name": "Euro vs Canadian Dollar",
+        "category": "minor",
+        "priority": 11,
+        "lot_size": 0.1,
+        "min_lot_size": 0.01,
+        "max_lot_size": 20.0,
+        "pip_value": 13.0,
+        "spread_limit": 0.0008,
+        "slippage_limit": 0.0005,
+        "volatility_rating": "medium",
+        "trading_hours": "24/5",
+        "liquidity": "low",
+        "commission": 0.0003,
+        "swap_long": -0.6,
+        "swap_short": 0.4,
+        "timeframes": ["15m", "1H", "4H", "1D"],
+        "preferred_timeframe": "1H",
+        "correlation": {
+          "EUR/USD": 0.8,
+          "USD/CAD": 0.7
+        },
+        "news_sensitivity": "medium",
+        "economic_events": ["ECB", "BOC"],
+        "trading_strategy": "cross_pair"
+      }
+    ],
+
+    "exotic_pairs": [
+      {
+        "symbol": "USD/TRY",
+        "enabled": false,
+        "display_name": "US Dollar vs Turkish Lira",
+        "category": "exotic",
+        "priority": 20,
+        "lot_size": 0.05,
+        "min_lot_size": 0.01,
+        "max_lot_size": 10.0,
+        "pip_value": 15.0,
+        "spread_limit": 0.0020,
+        "slippage_limit": 0.0010,
+        "volatility_rating": "extreme",
+        "trading_hours": "24/5",
+        "liquidity": "very_low",
+        "commission": 0.0005,
+        "swap_long": 5.0,
+        "swap_short": -15.0,
+        "timeframes": ["1H", "4H", "1D"],
+        "preferred_timeframe": "4H",
+        "correlation": {},
+        "news_sensitivity": "very_high",
+        "economic_events": ["CBRT", "Inflation"],
+        "trading_strategy": "high_risk"
+      },
+      {
+        "symbol": "USD/ZAR",
+        "enabled": false,
+        "display_name": "US Dollar vs South African Rand",
+        "category": "exotic",
+        "priority": 21,
+        "lot_size": 0.05,
+        "min_lot_size": 0.01,
+        "max_lot_size": 10.0,
+        "pip_value": 14.0,
+        "spread_limit": 0.0015,
+        "slippage_limit": 0.0008,
+        "volatility_rating": "very_high",
+        "trading_hours": "24/5",
+        "liquidity": "very_low",
+        "commission": 0.0005,
+        "swap_long": 2.0,
+        "swap_short": -8.0,
+        "timeframes": ["1H", "4H", "1D"],
+        "preferred_timeframe": "4H",
+        "correlation": {
+          "Gold": 0.6
+        },
+        "news_sensitivity": "high",
+        "economic_events": ["SARB", "Commodity Prices"],
+        "trading_strategy": "emerging_market"
+      }
+    ],
+
+    "trading_groups": {
+      "european_pairs": ["EUR/USD", "GBP/USD", "EUR/GBP", "EUR/CHF"],
+      "asian_pairs": ["USD/JPY", "AUD/USD", "NZD/USD", "USD/CNH"],
+      "commodity_pairs": ["AUD/USD", "USD/CAD", "NZD/USD"],
+      "safe_haven_pairs": ["USD/CHF", "USD/JPY", "Gold"],
+      "high_volatility_pairs": ["GBP/JPY", "EUR/JPY", "AUD/JPY"],
+      "low_volatility_pairs": ["EUR/CHF", "USD/CHF", "EUR/GBP"]
+    },
+
+    "risk_settings": {
+      "max_correlation_group": 0.7,
+      "max_positions_per_group": 2,
+      "group_exposure_limit": 0.3,
+      "volatility_adjustment": {
+        "low_volatility": 1.2,
+        "medium_volatility": 1.0,
+        "high_volatility": 0.8,
+        "very_high_volatility": 0.5,
+        "extreme_volatility": 0.3
+      },
+      "liquidity_adjustment": {
+        "very_high": 1.2,
+        "high": 1.0,
+        "medium": 0.8,
+        "low": 0.6,
+        "very_low": 0.4
+      }
+    },
+
+    "trading_sessions": {
+      "sydney": {
+        "open": "22:00",
+        "close": "07:00",
+        "active_pairs": ["AUD/USD", "NZD/USD", "USD/JPY"]
+      },
+      "tokyo": {
+        "open": "00:00", 
+        "close": "09:00",
+        "active_pairs": ["USD/JPY", "EUR/JPY", "GBP/JPY"]
+      },
+      "london": {
+        "open": "08:00",
+        "close": "17:00",
+        "active_pairs": ["EUR/USD", "GBP/USD", "EUR/GBP"]
+      },
+      "new_york": {
+        "open": "13:00",
+        "close": "22:00",
+        "active_pairs": ["USD/CAD", "USD/CHF", "All Majors"]
+      }
+    },
+
+    "broker_specific": {
+      "binance": {
+        "available_pairs": ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD"],
+        "max_leverage": 50,
+        "min_trade_size": 0.01,
+        "commission_structure": "percentage"
+      },
+      "exness": {
+        "available_pairs": ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD", "EUR/GBP", "EUR/JPY"],
+        "max_leverage": 100,
+        "min_trade_size": 0.01,
+        "commission_structure": "spread_only"
+      }
+    }
+  }
+}

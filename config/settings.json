@@ -1,0 +1,434 @@
+{
+  "settings": {
+    "metadata": {
+      "config_version": "2.5.0",
+      "created_date": "2024-01-15",
+      "last_modified": "2024-01-15",
+      "description": "Main Configuration Settings for AI Forex Trading Bot",
+      "author": "Forex AI Trading Team"
+    },
+
+    "environment": {
+      "environment": "production",
+      "debug_mode": false,
+      "log_level": "INFO",
+      "timezone": "UTC",
+      "language": "en",
+      "auto_update": true,
+      "maintenance_mode": false
+    },
+
+    "trading": {
+      "broker": "binance",
+      "demo_mode": false,
+      "symbols": [
+        {
+          "symbol": "EUR/USD",
+          "enabled": true,
+          "timeframe": "1H",
+          "lot_size": 0.1,
+          "spread_limit": 0.0003,
+          "slippage_limit": 0.0002
+        },
+        {
+          "symbol": "GBP/USD",
+          "enabled": true,
+          "timeframe": "1H", 
+          "lot_size": 0.1,
+          "spread_limit": 0.0004,
+          "slippage_limit": 0.0002
+        },
+        {
+          "symbol": "USD/JPY",
+          "enabled": true,
+          "timeframe": "1H",
+          "lot_size": 0.1,
+          "spread_limit": 0.0003,
+          "slippage_limit": 0.0002
+        }
+      ],
+      "trading_hours": {
+        "start": "00:00",
+        "end": "23:59",
+        "timezone": "UTC",
+        "break_periods": [
+          {
+            "start": "21:00",
+            "end": "22:00",
+            "reason": "Market close/open overlap"
+          }
+        ]
+      },
+      "execution": {
+        "order_type": "market",
+        "allow_partial_fills": true,
+        "max_retries": 3,
+        "retry_delay": 1,
+        "timeout_seconds": 30
+      }
+    },
+
+    "account": {
+      "account_id": "TRADER_001",
+      "account_currency": "USD",
+      "initial_balance": 10000.0,
+      "leverage": 30,
+      "margin_call_level": 0.8,
+      "stop_out_level": 0.5,
+      "risk_per_trade": 0.02,
+      "daily_loss_limit": 0.05,
+      "weekly_loss_limit": 0.1,
+      "max_drawdown": 0.15
+    },
+
+    "strategies": {
+      "active_strategies": [
+        {
+          "name": "deep_learning_lstm",
+          "enabled": true,
+          "weight": 0.4,
+          "confidence_threshold": 0.7,
+          "parameters": {
+            "sequence_length": 60,
+            "prediction_horizon": 1,
+            "min_holding_period": 4,
+            "max_holding_period": 48
+          }
+        },
+        {
+          "name": "multi_timeframe",
+          "enabled": true,
+          "weight": 0.3,
+          "confidence_threshold": 0.6,
+          "parameters": {
+            "timeframes": ["15m", "1H", "4H"],
+            "confluence_required": 2,
+            "weighted_voting": true
+          }
+        },
+        {
+          "name": "sentiment_analysis",
+          "enabled": true,
+          "weight": 0.2,
+          "confidence_threshold": 0.65,
+          "parameters": {
+            "min_sentiment_score": 0.6,
+            "news_weight": 0.4,
+            "social_weight": 0.6
+          }
+        },
+        {
+          "name": "market_microstructure",
+          "enabled": true,
+          "weight": 0.1,
+          "confidence_threshold": 0.55,
+          "parameters": {
+            "order_book_depth": 10,
+            "imbalance_threshold": 0.2
+          }
+        }
+      ],
+      "ensemble": {
+        "method": "weighted_average",
+        "min_confidence": 0.65,
+        "max_strategies": 4,
+        "dynamic_weighting": true
+      }
+    },
+
+    "risk_management": {
+      "position_sizing": {
+        "method": "kelly_optimal",
+        "max_position_size": 0.2,
+        "default_position_size": 0.1,
+        "dynamic_sizing": true,
+        "volatility_adjustment": true,
+        "confidence_multiplier": {
+          "high_confidence": 1.5,
+          "medium_confidence": 1.0,
+          "low_confidence": 0.5
+        }
+      },
+      "stop_loss": {
+        "method": "atr_based",
+        "atr_period": 14,
+        "atr_multiplier": 2.0,
+        "fixed_stop_loss_pct": 0.02,
+        "trailing_stop": true,
+        "trailing_activation_pct": 0.01,
+        "break_even_stop": true
+      },
+      "take_profit": {
+        "method": "risk_reward_ratio",
+        "risk_reward_ratio": 2.0,
+        "fixed_take_profit_pct": 0.04,
+        "partial_profits": true,
+        "partial_profit_levels": [
+          {
+            "target_pct": 0.5,
+            "close_pct": 0.3
+          },
+          {
+            "target_pct": 1.0,
+            "close_pct": 0.5
+          }
+        ]
+      },
+      "risk_limits": {
+        "max_open_positions": 3,
+        "max_correlation": 0.7,
+        "max_consecutive_losses": 5,
+        "max_daily_trades": 10,
+        "cooldown_after_loss": 2
+      }
+    },
+
+    "ai_models": {
+      "lstm": {
+        "enabled": true,
+        "model_path": "models/lstm_forex.h5",
+        "sequence_length": 60,
+        "batch_size": 32,
+        "confidence_threshold": 0.7,
+        "retrain_frequency": "weekly",
+        "auto_update": true
+      },
+      "reinforcement_learning": {
+        "enabled": true,
+        "model_path": "models/rl_agent.pkl",
+        "learning_rate": 0.0001,
+        "exploration_rate": 0.1,
+        "update_frequency": "daily"
+      },
+      "sentiment_analysis": {
+        "enabled": true,
+        "model_path": "models/sentiment_model.pkl",
+        "sources": ["news", "twitter", "reddit"],
+        "update_frequency": "hourly"
+      }
+    },
+
+    "data_sources": {
+      "market_data": {
+        "primary": "binance",
+        "secondary": "exness",
+        "timeframe": "1H",
+        "historical_days": 1095,
+        "real_time_update": true,
+        "data_quality_checks": true
+      },
+      "news_feeds": {
+        "enabled": true,
+        "sources": ["bloomberg", "reuters", "financial_times"],
+        "update_frequency": 5,
+        "sentiment_analysis": true
+      },
+      "social_media": {
+        "enabled": true,
+        "sources": ["twitter", "reddit"],
+        "update_frequency": 2,
+        "sentiment_analysis": true
+      },
+      "economic_calendar": {
+        "enabled": true,
+        "sources": ["forexfactory", "investing.com"],
+        "high_impact_only": true,
+        "pre_event_buffer": 30
+      }
+    },
+
+    "notifications": {
+      "enabled": true,
+      "channels": [
+        {
+          "type": "telegram",
+          "enabled": true,
+          "bot_token": "YOUR_BOT_TOKEN",
+          "chat_id": "YOUR_CHAT_ID",
+          "notifications": ["trades", "errors", "performance"]
+        },
+        {
+          "type": "email",
+          "enabled": true,
+          "smtp_server": "smtp.gmail.com",
+          "port": 587,
+          "username": "your_email@gmail.com",
+          "password": "YOUR_APP_PASSWORD",
+          "notifications": ["critical_errors", "daily_summary"]
+        },
+        {
+          "type": "discord",
+          "enabled": false,
+          "webhook_url": "YOUR_WEBHOOK_URL",
+          "notifications": ["trades", "signals"]
+        }
+      ],
+      "alert_levels": {
+        "info": ["trades", "signals"],
+        "warning": ["drawdown", "performance"],
+        "error": ["system_errors", "connection_issues"],
+        "critical": ["margin_call", "max_drawdown"]
+      }
+    },
+
+    "monitoring": {
+      "health_checks": {
+        "enabled": true,
+        "interval_seconds": 60,
+        "checks": ["api_connectivity", "database", "model_performance"]
+      },
+      "performance_tracking": {
+        "enabled": true,
+        "update_frequency": 3600,
+        "metrics": ["sharpe_ratio", "max_drawdown", "win_rate", "profit_factor"]
+      },
+      "log_management": {
+        "enabled": true,
+        "retention_days": 30,
+        "max_file_size": "100MB",
+        "compression": true
+      },
+      "dashboard": {
+        "enabled": true,
+        "port": 8050,
+        "auto_open": true,
+        "update_interval": 5
+      }
+    },
+
+    "backtesting": {
+      "enabled": true,
+      "initial_capital": 10000,
+      "commission": 0.0002,
+      "slippage": 0.0001,
+      "test_period": {
+        "start_date": "2020-01-01",
+        "end_date": "2023-12-31"
+      },
+      "walk_forward_analysis": {
+        "enabled": true,
+        "window_size": 252,
+        "forward_size": 63
+      },
+      "monte_carlo_simulations": {
+        "enabled": true,
+        "iterations": 10000
+      }
+    },
+
+    "optimization": {
+      "parameter_optimization": {
+        "enabled": true,
+        "method": "bayesian",
+        "max_iterations": 100,
+        "fitness_metric": "sharpe_ratio"
+      },
+      "genetic_algorithm": {
+        "enabled": true,
+        "population_size": 50,
+        "generations": 20,
+        "mutation_rate": 0.1
+      },
+      "feature_selection": {
+        "enabled": true,
+        "max_features": 50,
+        "importance_threshold": 0.01
+      }
+    },
+
+    "security": {
+      "encryption": {
+        "enabled": true,
+        "algorithm": "AES-256-GCM",
+        "key_derivation": "pbkdf2"
+      },
+      "api_security": {
+        "rate_limiting": true,
+        "ip_whitelist": ["127.0.0.1"],
+        "request_timeout": 30
+      },
+      "data_protection": {
+        "mask_sensitive_data": true,
+        "secure_logging": true,
+        "auto_logout": 3600
+      }
+    },
+
+    "backup": {
+      "enabled": true,
+      "frequency": "daily",
+      "retention_days": 7,
+      "backup_items": [
+        "configurations",
+        "models",
+        "trade_history",
+        "performance_data"
+      ],
+      "cloud_storage": {
+        "enabled": false,
+        "provider": "aws_s3",
+        "bucket_name": "forex-bot-backups"
+      }
+    },
+
+    "advanced": {
+      "high_frequency_trading": {
+        "enabled": false,
+        "latency_optimization": true,
+        "order_book_analysis": true
+      },
+      "quantum_computing": {
+        "enabled": false,
+        "quantum_circuits": 2,
+        "hybrid_training": true
+      },
+      "blockchain_integration": {
+        "enabled": false,
+        "smart_contracts": false,
+        "decentralized_oracles": false
+      },
+      "multi_agent_system": {
+        "enabled": false,
+        "agents_count": 3,
+        "coordination_method": "consensus"
+      }
+    },
+
+    "compliance": {
+      "regulatory": {
+        "track_trades": true,
+        "generate_reports": true,
+        "data_retention_years": 7
+      },
+      "risk_disclosure": {
+        "enabled": true,
+        "max_leverage_warning": true,
+        "risk_notification": true
+      },
+      "audit_trail": {
+        "enabled": true,
+        "log_all_actions": true,
+        "immutable_logs": true
+      }
+    },
+
+    "maintenance": {
+      "auto_restart": {
+        "enabled": true,
+        "max_uptime_hours": 24,
+        "restart_time": "04:00"
+      },
+      "cleanup": {
+        "enabled": true,
+        "schedule": "daily",
+        "clean_temp_files": true,
+        "optimize_database": true
+      },
+      "updates": {
+        "auto_update": true,
+        "check_frequency": "daily",
+        "backup_before_update": true
+      }
+    }
+  }
+}
